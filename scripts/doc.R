@@ -33,6 +33,34 @@ tb_gravadores <-bd_gravadores
 
 #data(ChaoSpeciesData)
 #ChaoSpeciesData$Inci_count
+
+
+
+
+##Total Angatuba
+total_ang <- openxlsx::read.xlsx(here::here("data","total.xlsx"),sheet = 1)
+row.names(total_ang) <- total_ang[,1]
+total_ang <- as.data.frame(total_ang[,-1])
+chao_total_ang<-SpadeR::ChaoSpecies(total_ang, datatype = "incidence_freq", k = 10, conf = 0.95)
+
+
+td_total_ang<-iNEXT3D(
+  total_ang,
+  diversity = "TD",
+  q = c(0, 1, 2),
+  datatype = "incidence_freq",
+  size = NULL,
+  endpoint = NULL,
+  knots = 40,
+  nboot = 50,
+  conf = 0.95)
+
+plotD_total_ang<-SpadeR::Diversity(total_ang, datatype = "incidence_freq")
+
+plotTD_total_ang_inext3d <-ggiNEXT3D(td_total_ang, type=1)
+
+
+
 ##Ponto 1
 ponto1 <- openxlsx::read.xlsx(here::here("data","ponto1.xlsx"),sheet = 1)
 row.names(ponto1) <- ponto1[,1]
@@ -98,7 +126,35 @@ plotD_ponto22<-SpadeR::Diversity(ponto22, datatype = "incidence_freq")
 
 plotTD_ponto22_inext3d <-ggiNEXT3D(td_ponto22, type= c(1,3))
 
+####Ponto 31
 
+ponto31 <- openxlsx::read.xlsx(here::here("data","ponto31.xlsx"),sheet = 1)
+row.names(ponto31) <- ponto31[,1]
+ponto31 <- as.data.frame(ponto31[,-1])
+chao_p1<-SpadeR::ChaoSpecies(ponto31, datatype = "incidence_freq", k = 10, conf = 0.95)
+
+
+td_ponto31<-iNEXT3D(
+  ponto31,
+  diversity = "TD",
+  q = c(0, 1, 2),
+  datatype = "incidence_freq",
+  size = NULL,
+  endpoint = NULL,
+  knots = 40,
+  nboot = 50,
+  conf = 0.95)
+
+plotD_ponto31<-SpadeR::Diversity(ponto31, datatype = "incidence_freq")
+
+plotTD_ponto31_inext3d <-ggiNEXT3D(td_ponto31, type=1)
+
+
+
+
+
+
+#####################################################################
 # Prepara a tabela  
 ponto18 <- cast(filter(bd_2021, !fam %in% "1",ponto =="18"), Specie ~ ponto, value = "value", sum)
 row.names(ponto1) <- ponto18[,1]
